@@ -1,13 +1,13 @@
-import { EyeIcon, FootprintsIcon, SearchIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import Header from "./_components/header";
 import { Button } from "./_components/ui/button";
 import { Input } from "./_components/ui/input";
 import Image from "next/image";
 import { Card, CardContent } from "./_components/ui/card";
-import { Badge } from "./_components/ui/badge";
-import { Avatar, AvatarImage } from "./_components/ui/avatar";
 import { db } from "./_lib/prisma";
 import BarbershopItem from "./_components/barbershop-item";
+import { quickSearchOptions } from "./_constants/search";
+import BookingItem from "./_components/booking-item";
 
 const Home = async () => {
   const barbershops = await db.barbershop.findMany({})
@@ -35,30 +35,12 @@ const Home = async () => {
 
         {/* BUSCA RAPIDA */}
         <div className="flex gap-3 mt-6 overflow-x-scroll [&::webkit--scrollbar:hidden]">
-          <Button className="gap-2" variant="secondary">
-            <Image src="/cabelo.svg" width={16} height={16} alt="Cabelo" />
-            Cabelo
-          </Button>
-
-          <Button className="gap-2" variant="secondary">
-            <Image src="/barba.svg" width={16} height={16} alt="Barba" />
-            Barba
-          </Button>
-
-          <Button className="gap-2" variant="secondary">
-            <Image src="/acabamento.svg" width={16} height={16} alt="Acabamento" />
-            Acabamento
-          </Button>
-
-          <Button className="gap-2" variant="secondary">
-            <FootprintsIcon size={16} />
-            Pézinho
-          </Button>
-
-          <Button className="gap-2" variant="secondary">
-            <EyeIcon size={16} />
-            Sobrancelha
-          </Button>
+          {quickSearchOptions.map((option) => (
+            <Button className="gap-2" variant="secondary" key={option.title}>
+              <Image src={option.imageUrl} width={16} height={16} alt={option.title} />
+              {option.title}
+            </Button>
+          ))}
         </div>
 
         {/* Banner */}
@@ -67,28 +49,7 @@ const Home = async () => {
         </div>
 
         {/* Agendamentos */}
-        <h2 className="text-xs font-bold uppercase text-gray-400 mt-6 mb-3">Agendamentos</h2>
-        <Card>
-          <CardContent className="flex justify-between p-0">
-
-            <div className="flex flex-col gap-2 py-5 pl-5">
-              <Badge className="w-fit">Confirmado</Badge>
-              <h3 className="font-semibold">Corte de Cabelo</h3>
-              <div className="flex items-center gap-2">
-                <Avatar className="h-6 w-6">
-                  <AvatarImage src="https://utfs.io/f/c97a2dc9-cf62-468b-a851-bfd2bdde775f-16p.png" />
-                </Avatar>
-                <p className="text-sm">Barbearia FSW</p>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center justify-center px-5 border-l-2 border-solid">
-              <p className="text-sm">Agosto</p>
-              <p className="text-2xl">05</p>
-              <p className="text-sm">20:00</p>
-            </div>
-          </CardContent>
-        </Card>
+        <BookingItem />
 
         {/* Recomendados */}
         <h2 className="text-xs font-bold uppercase text-gray-400 mt-6 mb-3">Recomendados</h2>

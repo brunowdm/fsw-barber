@@ -6,14 +6,19 @@ import Image from "next/image";
 import { Card, CardContent } from "./_components/ui/card";
 import { Badge } from "./_components/ui/badge";
 import { Avatar, AvatarImage } from "./_components/ui/avatar";
+import { db } from "./_lib/prisma";
+import BarbershopItem from "./_components/barbershop-item";
 
-export default function Home() {
+const Home = async () => {
+  const barbershops = await db.barbershop.findMany({})
+  console.log(barbershops)
+
   return (
     <div>
       <Header />
 
       <div className="p-5">
-        <h2 className="text-xl font-bold">Olá</h2>
+        <h2 className="text-xl font-bold">Olá, Bruno!</h2>
         <p>Segunda-feira, 05 de agosto.</p>
 
         <div className="flex items-center gap-2 mt-6">
@@ -30,7 +35,8 @@ export default function Home() {
         </div>
 
         {/* Agendamentos */}
-        <Card className="mt-6">
+        <h2 className="text-xs font-bold uppercase text-gray-400 mt-6 mb-3">Agendamentos</h2>
+        <Card>
           <CardContent className="flex justify-between p-0">
 
             <div className="flex flex-col gap-2 py-5 pl-5">
@@ -51,7 +57,18 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Recomendados */}
+        <h2 className="text-xs font-bold uppercase text-gray-400 mt-6 mb-3">Recomendados</h2>
+        <div className="flex gap-4 overflow-auto [&::webkit--scrollbar:hidden]">
+        {barbershops.map((barbershop) => (
+          <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+        ))}
+        </div>
+
       </div>
     </div>
   );
 }
+
+export default Home;

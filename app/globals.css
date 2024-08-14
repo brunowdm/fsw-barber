@@ -45,5 +45,8 @@
   }
   body {
     @apply h-full bg-background text-foreground;
+    ::-webkit-scrollbar {
+      display: none;
+    }
   }
 }

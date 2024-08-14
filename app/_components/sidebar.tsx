@@ -66,7 +66,7 @@ const SideBar = () => {
 
             <div className="py-5 flex flex-col gap-2 border-b border-solid">
                 <SheetClose asChild>
-                    <Button className="gap-2 justify-start" asChild>
+                    <Button className="gap-2 justify-start" asChild variant="ghost">
                         <Link href="/">
                             <HomeIcon size={18} />
                             Início
@@ -81,10 +81,14 @@ const SideBar = () => {
 
             <div className="py-5 flex flex-col gap-2 border-b border-solid">
                 {quickSearchOptions.map((option) => (
-                    <Button className="gap-2 justify-start" variant="ghost" key={option.title}>
-                        <Image alt={option.title} src={option.imageUrl} width={18} height={18} />
-                        {option.title}
-                    </Button>
+                    <SheetClose asChild key={option.title}>
+                        <Button className="gap-2 justify-start" variant="ghost" asChild>
+                            <Link href={`/barbershops?service=${option.title}`}>
+                                <Image alt={option.title} src={option.imageUrl} width={18} height={18} />
+                                {option.title}
+                            </Link>
+                        </Button>
+                    </SheetClose>
                 ))}
             </div>
 

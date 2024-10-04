@@ -54,7 +54,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
 
             <div className="flex flex-col gap-2 py-5 pl-5">
               <Badge className="w-fit" variant={isConfirmed ? "default" : "secondary"}>{isConfirmed ? 'Confirmado' : 'Finalizado'}</Badge>
-              <h3 className="font-semibold">{booking.service.name}</h3>
+              <h3 className="font-semibold text-left">{booking.service.name}</h3>
               <div className="flex items-center gap-2">
                 <Avatar className="h-6 w-6">
                   <AvatarImage src={booking.service.barbershop.imageUrl} />

@@ -27,6 +27,8 @@ async function seedDatabase() {
       "https://utfs.io/f/07842cfb-7b30-4fdc-accc-719618dfa1f2-17s.png",
       "https://utfs.io/f/0522fdaf-0357-4213-8f52-1d83c3dcb6cd-18e.png",
     ];
+
+    
     // Nomes criativos para as barbearias
     const creativeNames = [
       "Barbearia Vintage",

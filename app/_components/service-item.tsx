@@ -222,7 +222,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                                                     <div className="flex justify-between items-center">
                                                         <h2 className="text-sm text-gray-400">Data</h2>
                                                         <p className="text-sm">
-                                                            {format(selectedDay, "d 'de' MMMM", {
+                                                            {selectedDay && format(selectedDay, "d 'de' MMMM", {
                                                                 locale: ptBR
                                                             })}
                                                         </p>

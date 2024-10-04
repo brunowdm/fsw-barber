@@ -1,7 +1,5 @@
-import { SearchIcon } from "lucide-react";
 import Header from "./_components/header";
 import { Button } from "./_components/ui/button";
-import { Input } from "./_components/ui/input";
 import Image from "next/image";
 import { db } from "./_lib/prisma";
 import BarbershopItem from "./_components/barbershop-item";
@@ -9,14 +7,32 @@ import { quickSearchOptions } from "./_constants/search";
 import BookingItem from "./_components/booking-item";
 import Search from "./_components/search";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./_lib/auth";
 
 const Home = async () => {
+  const session = await getServerSession(authOptions);
   const barbershops = await db.barbershop.findMany({})
   const popularBarbershops = await db.barbershop.findMany({
     orderBy: {
       name: "desc"
     }
   })
+  const bookings = session?.user ? await db.booking.findMany({
+    where:{
+      userId: (session?.user as any).id,
+      date: {
+        gte: new Date()
+      }
+    },
+    include: {
+      service: {
+        include:{
+          barbershop: true
+        }
+      }
+    },    
+  }) : []
 
   return (
     <div>
@@ -48,7 +64,13 @@ const Home = async () => {
         </div>
 
         {/* Agendamentos */}
-        <BookingItem />
+        <h2 className="text-xs font-bold uppercase text-gray-400 mt-6 mb-3">Agendamentos</h2>
+        <div className="flex overflow-x-auto gap-3">
+            {bookings.map(booking => (
+              <BookingItem key={booking.id} booking={booking} />
+            ))}
+        </div>
+        
 
         {/* Recomendados */}
         <h2 className="text-xs font-bold uppercase text-gray-400 mt-6 mb-3">Recomendados</h2>

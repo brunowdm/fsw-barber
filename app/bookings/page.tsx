@@ -7,7 +7,7 @@ import BookingItem from "../_components/booking-item";
 
 const Bookings = async () => {
     const session = await getServerSession(authOptions)
-    if(!session?.user){
+    if (!session?.user) {
         return notFound()
     }
 
@@ -18,7 +18,7 @@ const Bookings = async () => {
                 gte: new Date()
             }
         },
-        include:{
+        include: {
             service: {
                 include: {
                     barbershop: true
@@ -27,7 +27,7 @@ const Bookings = async () => {
         },
         orderBy: {
             date: "asc"
-          }
+        }
     })
 
     const concludedBokings = await db.booking.findMany({
@@ -37,7 +37,7 @@ const Bookings = async () => {
                 lt: new Date()
             }
         },
-        include:{
+        include: {
             service: {
                 include: {
                     barbershop: true
@@ -46,7 +46,7 @@ const Bookings = async () => {
         },
         orderBy: {
             date: "asc"
-          }
+        }
     })
 
     return (
@@ -55,14 +55,24 @@ const Bookings = async () => {
 
             <div className="p-5 space-y-3">
                 <h1 className="text-xl font-bold">Agendamentos</h1>
-                <h2 className="text-xs font-bold uppercase text-gray-400 mt-6 mb-3">Confirmados</h2>
-                {confirmedBookings.map(booking => <BookingItem key={booking.id} booking={booking} />)}
 
-                <h2 className="text-xs font-bold uppercase text-gray-400 mt-6 mb-3">Finalizados</h2>
-                {concludedBokings.map(booking => <BookingItem key={booking.id} booking={booking} />)}
+
+                {confirmedBookings.length > 0 && (
+                    <>
+                        <h2 className="text-xs font-bold uppercase text-gray-400 mt-6 mb-3">Confirmados</h2>
+                        {confirmedBookings.map(booking => <BookingItem key={booking.id} booking={booking} />)}
+                    </>
+                )}
+
+                {concludedBokings.length > 0 && (
+                    <>
+                        <h2 className="text-xs font-bold uppercase text-gray-400 mt-6 mb-3">Finalizados</h2>
+                        {concludedBokings.map(booking => <BookingItem key={booking.id} booking={booking} />)}
+                    </>
+                )}
             </div>
         </>
     );
 }
- 
+
 export default Bookings;
